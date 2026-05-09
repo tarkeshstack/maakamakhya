@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>माँ कामाख्या पोल्ट्री</title>
+
+<!-- ── PWA META ── -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#C84800">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="माँ कामाख्या">
+<meta name="application-name" content="माँ कामाख्या">
+<meta name="msapplication-TileColor" content="#C84800">
+<meta name="msapplication-TileImage" content="icons/icon-144.png">
+<meta name="description" content="माँ कामाख्या पोल्ट्री प्रोडक्ट प्रा. लि. — झारखण्ड की शान, 1997 से सेवा में">
+
+<!-- ── APPLE TOUCH ICONS ── -->
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="72x72"  href="icons/icon-72.png">
+<link rel="apple-touch-icon" sizes="96x96"  href="icons/icon-96.png">
+<link rel="apple-touch-icon" sizes="128x128" href="icons/icon-128.png">
+<link rel="apple-touch-icon" sizes="144x144" href="icons/icon-144.png">
+<link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+
+<!-- ── APPLE SPLASH SCREENS ── -->
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<!-- ── FONTS ── -->
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --saffron:     #C84800;
+  --saffron-mid: #E05A10;
+  --saffron-lt:  #FF7A30;
+  --gold:        #A06000;
+  --gold-mid:    #C88010;
+  --gold-lt:     #F0A020;
+  --cream:       #FFFCF5;
+  --deep:        #1A0800;
+  --brown:       #5A2800;
+  --brown-mid:   #8A4A18;
+  --green:       #1C4806;
+  --green-mid:   #2C6A10;
+  --white:       #FFFFFF;
+  --border-warm: #EDD8B8;
+  --sh-xs: 0 2px 12px rgba(160,60,0,0.08);
+  --sh-sm: 0 4px 20px rgba(160,60,0,0.12);
+  --sh-md: 0 8px 32px rgba(160,60,0,0.16);
+  --sh-lg: 0 16px 48px rgba(0,0,0,0.24);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;
+  font-family:'Noto Sans Devanagari','Baloo 2',sans-serif;}
+body{
+  background:var(--cream);color:var(--deep);
+  max-width:430px;margin:0 auto;min-height:100vh;
+  overflow-x:hidden;font-size:16px;-webkit-font-smoothing:antialiased;
+  /* Safe area for notch phones */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+h1,h2,h3,.brand,.hero-title,.sec-title,.ph1,.form-title{
+  font-family:'Tiro Devanagari Hindi','Baloo 2',serif;
+}
+
+/* ══════════════════════════════════
+   PWA INSTALL BANNER
+══════════════════════════════════ */
+#install-banner {
+  display: none;
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 28px);
+  max-width: 402px;
+  background: var(--white);
+  border-radius: 22px;
+  border: 2px solid var(--border-warm);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.22);
+  z-index: 500;
+  overflow: hidden;
+  animation: slideUp 0.4s ease forwards;
+}
+#install-banner::before {
+  content: '';
+  display: block;
+  height: 4px;
+  background: linear-gradient(90deg, var(--saffron), var(--gold-lt), var(--saffron));
+}
+.install-inner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 16px 16px;
+}
+.install-icon {
+  width: 54px; height: 54px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--saffron), var(--gold-mid));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(200,72,0,0.35);
+}
+.install-text { flex: 1; }
+.install-text .it { font-size: 15px; font-weight: 800; color: var(--deep); }
+.install-text .is { font-size: 12px; color: var(--brown-mid); margin-top: 2px; }
+.install-actions { display: flex; gap: 8px; padding: 0 16px 16px; }
+.install-btn {
+  flex: 1;
+  background: linear-gradient(135deg, var(--saffron), var(--gold-mid));
+  color: white; border: none; border-radius: 13px;
+  padding: 12px 0; font-size: 14px; font-weight: 700; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(200,72,0,0.35);
+}
+.install-dismiss {
+  flex: 1;
+  background: #F5EAD8; color: var(--brown);
+  border: 2px solid var(--border-warm); border-radius: 13px;
+  padding: 12px 0; font-size: 14px; font-weight: 700; cursor: pointer;
+}
+
+/* ══════════════════════════════════
+   OFFLINE BANNER
+══════════════════════════════════ */
+#offline-bar {
+  display: none;
+  background: #FF4444;
+  color: white;
+  text-align: center;
+  padding: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  position: sticky; top: 0; z-index: 200;
+}
+
+/* ══════════════════════════════════
+   SPLASH SCREEN
+══════════════════════════════════ */
+#splash {
+  position: fixed; inset: 0; z-index: 1000;
+  background: linear-gradient(160deg, #1A0800, #5A2800);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  transition: opacity 0.5s ease;
+}
+#splash.hide { opacity: 0; pointer-events: none; }
+.splash-icon {
+  width: 110px; height: 110px;
+  background: linear-gradient(135deg, var(--saffron), var(--gold-mid));
+  border-radius: 28px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 58px;
+  box-shadow: 0 12px 40px rgba(200,72,0,0.5);
+  margin-bottom: 24px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+.splash-title {
+  font-family: 'Tiro Devanagari Hindi', serif;
+  font-size: 30px; font-weight: 700; color: white;
+  text-align: center; line-height: 1.2;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.4);
+  margin-bottom: 8px;
+}
+.splash-sub {
+  font-size: 13px; color: rgba(255,255,255,0.55);
+  text-align: center;
+}
+.splash-loader {
+  margin-top: 40px;
+  width: 48px; height: 4px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 4px; overflow: hidden;
+}
+.splash-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--saffron-lt), var(--gold-lt));
+  border-radius: 4px;
+  animation: load 1.6s ease forwards;
+}
+@keyframes load { from { width: 0; } to { width: 100%; } }
+
+/* ══════════════════════════════════
+   HEADER
+══════════════════════════════════ */
+.app-header{
+  background:var(--white);
+  padding:12px 16px;
+  display:flex;justify-content:space-between;align-items:center;
+  border-bottom:2.5px solid var(--border-warm);
+  box-shadow:0 3px 20px rgba(160,60,0,0.10);
+  position:sticky;top:0;z-index:60;
+}
+.logo-wrap{display:flex;align-items:center;gap:11px;}
+.logo-img{
+  width:54px;height:54px;border-radius:14px;
+  object-fit:contain;background:#FFF5E8;
+  border:2px solid var(--border-warm);
+  box-shadow:0 4px 14px rgba(200,72,0,0.20);
+  padding:3px;
+}
+.logo-text .brand{
+  font-size:22px;font-weight:800;line-height:1.1;
+  background:linear-gradient(135deg,var(--saffron),var(--gold-mid));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:-0.3px;
+}
+.logo-text .sub{font-size:11.5px;color:var(--brown-mid);font-weight:500;line-height:1.3;}
+.hdr-btns{display:flex;gap:9px;}
+.hdr-btn{
+  width:46px;height:46px;
+  background:linear-gradient(135deg,#FFF5E8,#FFE4CC);
+  border-radius:13px;border:1.5px solid var(--border-warm);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;cursor:pointer;box-shadow:var(--sh-xs);
+  transition:transform 0.15s;
+}
+.hdr-btn:active{transform:scale(0.90);}
+
+/* ── HERO ── */
+.hero-wrap{
+  margin:14px 12px 0;border-radius:26px;overflow:hidden;
+  position:relative;min-height:310px;
+  display:flex;align-items:flex-end;box-shadow:var(--sh-lg);
+}
+.hero-wrap::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:5px;
+  background:linear-gradient(90deg,var(--saffron),var(--gold-lt),var(--saffron));
+  z-index:3;border-radius:26px 26px 0 0;
+}
+.hero-img-bg{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(180deg,rgba(10,4,0,0.10) 0%,rgba(10,4,0,0.82) 100%),
+    url('https://maakamakhyafeed.com/attachment/gallery/3231-imresizer-WhatsApp%20Image%202026-03-26%20at%203.20.25%20PM%20(1).jpeg');
+  background-size:cover;background-position:center;
+}
+.hero-body{position:relative;z-index:2;padding:26px 20px 24px;width:100%;}
+.hero-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,0.16);border:1px solid rgba(255,255,255,0.32);
+  backdrop-filter:blur(10px);color:#FFE4B8;
+  font-size:12.5px;font-weight:600;padding:6px 14px;border-radius:30px;margin-bottom:13px;
+}
+.hero-title{font-size:33px;font-weight:700;color:#FFF;line-height:1.18;margin-bottom:10px;text-shadow:0 3px 14px rgba(0,0,0,0.40);}
+.hero-title span{color:#FFB060;display:block;}
+.hero-desc{font-size:14px;color:rgba(255,255,255,0.72);line-height:1.72;margin-bottom:18px;max-width:285px;}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,var(--saffron-mid),var(--gold-lt));
+  color:white;padding:13px 24px;border-radius:15px;
+  font-size:15px;font-weight:700;cursor:pointer;border:none;
+  box-shadow:0 6px 22px rgba(200,72,0,0.52);transition:transform 0.15s;
+}
+.hero-cta:active{transform:scale(0.96);}
+.hero-stats{display:flex;gap:22px;margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.18);}
+.hs-num{font-family:'Baloo 2',sans-serif;font-size:22px;font-weight:800;color:#FFB060;}
+.hs-lbl{font-size:11px;color:rgba(255,255,255,0.52);line-height:1.3;}
+
+/* ── RIBBON ── */
+.ribbon{
+  background:linear-gradient(90deg,var(--saffron),var(--gold-mid),var(--saffron-mid),var(--gold-mid),var(--saffron));
+  background-size:300%;animation:bgshift 5s linear infinite;
+  padding:10px 0;overflow:hidden;
+}
+@keyframes bgshift{0%{background-position:0%}100%{background-position:300%}}
+.ribbon-inner{display:flex;white-space:nowrap;animation:scroll 26s linear infinite;}
+.ribbon-text{font-size:13px;color:white;font-weight:700;padding:0 18px;}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── ANIMAL CHIPS ── */
+.chip-label{font-size:14px;color:var(--brown-mid);font-weight:700;padding:20px 16px 10px;}
+.chip-row{display:flex;gap:10px;padding:0 12px;}
+.a-chip{
+  flex:1;background:var(--white);border:2px solid var(--border-warm);border-radius:20px;
+  display:flex;flex-direction:column;align-items:center;
+  padding:15px 5px 12px;cursor:pointer;box-shadow:var(--sh-sm);
+  transition:transform 0.15s;position:relative;overflow:hidden;
+}
+.a-chip::before{content:'';position:absolute;top:0;left:0;right:0;height:3.5px;border-radius:20px 20px 0 0;}
+.a-chip.c1::before{background:linear-gradient(90deg,#FF7030,#FFC050);}
+.a-chip.c2::before{background:linear-gradient(90deg,#FFB030,#FFE060);}
+.a-chip.c3::before{background:linear-gradient(90deg,#50C030,#90E050);}
+.a-chip.c4::before{background:linear-gradient(90deg,#5090FF,#90C0FF);}
+.a-chip:active{transform:scale(0.94);}
+.a-emoji{font-size:34px;margin-bottom:7px;}
+.a-name{font-size:12px;font-weight:700;color:var(--brown);text-align:center;line-height:1.3;}
+
+/* ── SECTION ── */
+.sec{padding:24px 12px 0;}
+.sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.sec-title{font-size:22px;font-weight:700;color:var(--deep);position:relative;display:inline-block;}
+.sec-title::after{content:'';display:block;width:38px;height:3px;margin-top:4px;background:linear-gradient(90deg,var(--saffron),var(--gold-lt));border-radius:3px;}
+.see-all{font-size:13px;color:var(--saffron);font-weight:700;cursor:pointer;background:linear-gradient(135deg,#FFF5E8,#FFE4CC);padding:7px 14px;border-radius:22px;border:1.5px solid #F0D0A8;box-shadow:var(--sh-xs);}
+
+/* ── PRODUCT SCROLL ── */
+.p-scroll{display:flex;gap:13px;overflow-x:auto;padding:4px 12px 12px;scrollbar-width:none;}
+.p-scroll::-webkit-scrollbar{display:none;}
+.p-card{
+  min-width:175px;background:var(--white);border-radius:22px;
+  border:2px solid var(--border-warm);padding:0 0 15px;
+  cursor:pointer;flex-shrink:0;box-shadow:var(--sh-md);
+  transition:transform 0.18s;position:relative;overflow:hidden;
+}
+.p-card:active{transform:scale(0.96);}
+.p-img-wrap{width:100%;height:140px;overflow:hidden;border-radius:20px 20px 0 0;position:relative;background:#F5EAD8;}
+.p-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform 0.3s;}
+.p-img-wrap::after{content:'';position:absolute;bottom:0;left:0;right:0;height:40px;background:linear-gradient(transparent,rgba(255,255,255,0.9));}
+.p-badge{position:absolute;top:10px;left:10px;z-index:2;background:linear-gradient(135deg,var(--green),var(--green-mid));color:white;font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:20px;box-shadow:0 2px 8px rgba(28,72,6,0.35);}
+.p-body{padding:12px 14px 0;}
+.p-name{font-size:14px;font-weight:700;color:var(--deep);margin-bottom:3px;line-height:1.3;}
+.p-brand{font-size:11.5px;color:var(--brown-mid);margin-bottom:11px;font-weight:500;}
+.p-btn{display:block;width:calc(100% - 28px);margin:0 14px;background:linear-gradient(135deg,var(--saffron),var(--gold-mid));color:white;border:none;border-radius:11px;padding:10px 0;font-size:13.5px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(200,72,0,0.30);}
+
+/* ── FEATURE BANNER ── */
+.feat-banner{
+  margin:24px 12px 0;border-radius:24px;overflow:hidden;
+  position:relative;min-height:230px;display:flex;align-items:flex-end;box-shadow:var(--sh-lg);
+}
+.feat-bg{position:absolute;inset:0;background-image:linear-gradient(170deg,rgba(10,30,4,0.12) 0%,rgba(10,30,4,0.88) 100%),url('https://maakamakhyafeed.com/attachment/farm/chicken3.jpg');background-size:cover;background-position:center;}
+.feat-banner::after{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--green-mid),#90E040,var(--green-mid));z-index:3;border-radius:24px 24px 0 0;}
+.feat-body{position:relative;z-index:2;padding:24px 20px;width:100%;}
+.feat-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.16);border:1px solid rgba(255,255,255,0.32);backdrop-filter:blur(8px);color:#C8F080;font-size:12px;font-weight:600;padding:5px 13px;border-radius:20px;margin-bottom:11px;}
+.feat-body h3{font-size:22px;color:white;margin-bottom:9px;line-height:1.3;font-weight:700;}
+.feat-body p{font-size:13.5px;color:rgba(255,255,255,0.70);line-height:1.72;margin-bottom:16px;}
+.feat-stats{display:flex;gap:22px;}
+.fs-num{font-family:'Baloo 2',sans-serif;font-size:22px;font-weight:800;color:#90E840;}
+.fs-lbl{font-size:11px;color:rgba(255,255,255,0.50);line-height:1.3;}
+
+/* ── BRAND CHIPS ── */
+.brand-scroll{display:flex;gap:10px;overflow-x:auto;padding:4px 12px 10px;scrollbar-width:none;}
+.brand-scroll::-webkit-scrollbar{display:none;}
+.brand-chip{min-width:110px;height:60px;background:var(--white);border:2px solid var(--border-warm);border-radius:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:var(--sh-sm);cursor:pointer;padding:8px 10px;}
+.brand-chip img{max-height:40px;max-width:90px;object-fit:contain;}
+
+/* ── CONTACT CARD ── */
+.contact-card{background:var(--white);border-radius:22px;border:2px solid var(--border-warm);padding:18px;box-shadow:var(--sh-md);position:relative;overflow:hidden;}
+.contact-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--saffron),var(--gold-lt),var(--saffron));}
+.c-row{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1.5px solid #F5E8D8;cursor:pointer;}
+.c-row:last-child{border-bottom:none;}
+.c-icon{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#FFF5E8,#FFE0B8);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;border:1.5px solid #F0D0A0;box-shadow:var(--sh-xs);}
+.c-lbl{font-size:11.5px;color:var(--brown-mid);font-weight:500;}
+.c-val{font-size:15px;font-weight:700;color:var(--deep);margin-top:1px;}
+.c-arr{font-size:24px;color:#D09060;margin-left:auto;}
+
+/* ── SERVICE CARDS ── */
+.svc-card{background:var(--white);border-radius:20px;border:2px solid var(--border-warm);padding:17px;display:flex;align-items:center;gap:15px;cursor:pointer;margin-bottom:12px;box-shadow:var(--sh-sm);position:relative;overflow:hidden;transition:transform 0.15s;}
+.svc-card::after{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--saffron-mid),var(--gold-lt));border-radius:4px 0 0 4px;}
+.svc-card:active{transform:scale(0.98);}
+.svc-icon{width:58px;height:58px;border-radius:17px;display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;box-shadow:var(--sh-xs);}
+.s1{background:linear-gradient(135deg,#FFF0DC,#FFD8A0);}
+.s2{background:linear-gradient(135deg,#E8F8D8,#C0E898);}
+.s3{background:linear-gradient(135deg,#FFF8D0,#FFE870);}
+.s4{background:linear-gradient(135deg,#E8F0FF,#C0D4FF);}
+.svc-name{font-size:15px;font-weight:700;color:var(--deep);margin-bottom:4px;}
+.svc-desc{font-size:12.5px;color:var(--brown-mid);line-height:1.55;}
+.svc-arr{font-size:22px;color:#D0A070;}
+
+/* ── GALLERY ── */
+.gal-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+.gal-item{border-radius:20px;height:148px;overflow:hidden;position:relative;cursor:pointer;box-shadow:var(--sh-md);transition:transform 0.15s;background:#F5EAD8;}
+.gal-item:active{transform:scale(0.97);}
+.gal-item img{width:100%;height:100%;object-fit:cover;display:block;}
+.gal-fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:52px;}
+.gal-label{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(20,8,0,0.75));color:white;font-size:12px;font-weight:700;padding:20px 10px 10px;text-align:center;}
+
+/* ── PAGE HERO ── */
+.pg-hero{min-height:185px;position:relative;display:flex;align-items:flex-end;overflow:hidden;}
+.pg-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;}
+.pg-hero-ov{position:absolute;inset:0;background:linear-gradient(170deg,rgba(20,8,0,0.08) 0%,rgba(20,8,0,0.82) 100%);}
+.pg-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--saffron),var(--gold-lt),var(--saffron));z-index:5;}
+.pg-body{position:relative;z-index:3;padding:20px 18px 24px;}
+.pg-sub{color:rgba(255,220,160,0.90);font-size:13px;font-weight:600;}
+.pg-body .ph1{font-size:28px;color:white;margin-top:2px;text-shadow:0 2px 12px rgba(0,0,0,0.35);}
+.pg-body p{font-size:13px;color:rgba(255,255,255,0.60);margin-top:5px;}
+
+/* ── CAREER ── */
+.car-card{background:var(--white);border-radius:22px;border:2px solid var(--border-warm);padding:20px;margin-bottom:13px;box-shadow:var(--sh-sm);position:relative;overflow:hidden;}
+.car-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--saffron-mid),var(--gold-lt));}
+.car-title{font-size:16.5px;font-weight:800;color:var(--deep);margin-bottom:7px;}
+.car-meta{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+.car-tag{font-size:12px;padding:4px 12px;border-radius:20px;font-weight:700;}
+.car-tag.loc{background:#E8F5DA;color:var(--green-mid);}
+.car-tag.type{background:#FFF0E0;color:var(--saffron);}
+.car-desc{font-size:13.5px;color:var(--brown-mid);line-height:1.65;margin-bottom:13px;}
+.apply-btn{background:linear-gradient(135deg,var(--saffron),var(--gold-mid));color:white;border:none;border-radius:13px;padding:12px 22px;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 5px 16px rgba(200,72,0,0.32);}
+
+/* ── JOIN CARD ── */
+.join-card{background:var(--white);border-radius:20px;border:2px solid var(--border-warm);padding:20px;margin-bottom:13px;box-shadow:var(--sh-sm);position:relative;overflow:hidden;}
+.join-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:5px;background:linear-gradient(180deg,var(--saffron-mid),var(--gold-lt));}
+.join-inner{padding-left:10px;}
+.join-title{font-size:16px;font-weight:800;color:var(--deep);margin-bottom:6px;}
+.join-desc{font-size:13.5px;color:var(--brown-mid);line-height:1.65;margin-bottom:13px;}
+
+/* ── FORM ── */
+.enq-form{background:var(--white);border-radius:24px;border:2px solid var(--border-warm);padding:22px;box-shadow:var(--sh-md);position:relative;overflow:hidden;}
+.enq-form::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--saffron),var(--gold-lt),var(--saffron));}
+.form-title{font-size:22px;font-weight:700;color:var(--deep);margin-bottom:18px;}
+.fg{margin-bottom:14px;}
+.fl{font-size:12.5px;font-weight:700;color:var(--brown);margin-bottom:7px;display:block;text-transform:uppercase;letter-spacing:0.4px;}
+.fc{width:100%;padding:13px 15px;border:2px solid #EDD8B8;border-radius:13px;background:#FFFBF5;font-size:14.5px;color:var(--deep);outline:none;appearance:none;}
+.fc:focus{border-color:var(--saffron-mid);box-shadow:0 0 0 4px rgba(200,72,0,0.09);}
+textarea.fc{resize:none;height:100px;}
+.sub-btn{width:100%;background:linear-gradient(135deg,var(--saffron),var(--gold-mid));color:white;border:none;border-radius:16px;padding:16px;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 8px 28px rgba(200,72,0,0.38);}
+
+/* ── DIVIDER ── */
+.divider{display:flex;align-items:center;gap:10px;margin:26px 14px 0;}
+.div-line{flex:1;height:2px;background:linear-gradient(90deg,transparent,var(--border-warm));}
+.div-line.r{background:linear-gradient(90deg,var(--border-warm),transparent);}
+.div-mot{font-size:22px;opacity:0.55;}
+
+/* ── FOOTER ── */
+.footer-strip{background:linear-gradient(135deg,var(--deep),var(--brown));margin:24px 12px 0;border-radius:22px;padding:22px 20px;text-align:center;box-shadow:var(--sh-md);}
+.ft-name{font-family:'Tiro Devanagari Hindi',serif;font-size:15.5px;font-weight:700;color:white;margin-bottom:4px;}
+.ft-copy{font-size:12px;color:rgba(255,255,255,0.40);}
+.soc-row{display:flex;justify-content:center;gap:13px;margin-top:16px;}
+.soc-btn{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:19px;cursor:pointer;color:white;font-weight:800;box-shadow:0 4px 14px rgba(0,0,0,0.22);}
+
+/* ── BOTTOM NAV ── */
+.btm-nav{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:430px;background:var(--white);
+  display:flex;justify-content:space-around;align-items:center;
+  padding:9px 6px;
+  padding-bottom: calc(9px + env(safe-area-inset-bottom));
+  border-top:2px solid var(--border-warm);
+  box-shadow:0 -4px 24px rgba(160,60,0,0.10);z-index:100;
+}
+.nav-it{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:6px 14px;border-radius:16px;transition:background 0.2s;}
+.nav-it.active{background:linear-gradient(135deg,#FFF5E8,#FFE4CC);border:1.5px solid #F0D0A8;}
+.nav-ic{font-size:27px;line-height:1;}
+.nav-lb{font-size:10.5px;font-weight:700;color:rgba(90,40,0,0.38);}
+.nav-it.active .nav-lb{color:var(--saffron);}
+
+/* ── PRODUCT LIST (inner pages) ── */
+.pl-card{background:var(--white);border-radius:20px;border:2px solid var(--border-warm);display:flex;gap:0;align-items:stretch;box-shadow:var(--sh-sm);overflow:hidden;margin-bottom:13px;position:relative;}
+.pl-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3.5px;background:linear-gradient(90deg,var(--saffron-mid),var(--gold-lt));}
+.pl-img{width:110px;flex-shrink:0;background:#F5EAD8;}
+.pl-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.pl-info{flex:1;padding:14px 14px 14px 15px;display:flex;flex-direction:column;justify-content:space-between;}
+.pl-name{font-size:15px;font-weight:700;color:var(--deep);margin-bottom:3px;line-height:1.3;}
+.pl-brand{font-size:12px;color:var(--brown-mid);font-weight:500;margin-bottom:6px;}
+.pl-desc{font-size:12.5px;color:var(--brown-mid);line-height:1.5;margin-bottom:10px;}
+.pl-btn{align-self:flex-start;background:linear-gradient(135deg,var(--saffron),var(--gold-mid));color:white;border:none;border-radius:10px;padding:9px 18px;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(200,72,0,0.28);}
+
+/* ── PAGES ── */
+.page{display:none;padding-bottom:calc(90px + env(safe-area-inset-bottom));}
+.page.active{display:block;}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:104px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--deep),var(--brown));color:white;padding:12px 26px;border-radius:26px;font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:opacity 0.3s;white-space:nowrap;z-index:200;border:1.5px solid rgba(200,72,0,0.4);box-shadow:0 8px 28px rgba(0,0,0,0.28);}
+.toast.show{opacity:1;}
+
+@keyframes slideUp{from{transform:translate(-50%,30px);opacity:0;}to{transform:translate(-50%,0);opacity:1;}}
+@keyframes fadeUp{from{transform:translateY(22px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.fu{animation:fadeUp 0.45s ease forwards;}
+</style>
+</head>
+<body>
+
+<!-- ══ SPLASH SCREEN ══ -->
+<div id="splash">
+  <div class="splash-icon">🐄</div>
+  <div class="splash-title">माँ कामाख्या<br>पोल्ट्री</div>
+  <div class="splash-sub">1997 से झारखण्ड की शान</div>
+  <div class="splash-loader"><div class="splash-bar"></div></div>
+</div>
+
+<!-- ══ OFFLINE BAR ══ -->
+<div id="offline-bar">📵 आप ऑफलाइन हैं — कुछ सामग्री उपलब्ध नहीं हो सकती</div>
+
+<!-- ══ INSTALL BANNER ══ -->
+<div id="install-banner">
+  <div class="install-inner">
+    <div class="install-icon">🐄</div>
+    <div class="install-text">
+      <div class="it">ऐप इंस्टॉल करें</div>
+      <div class="is">होम स्क्रीन पर जोड़ें — बिना इंटरनेट भी चलेगा!</div>
+    </div>
+  </div>
+  <div class="install-actions">
+    <button class="install-btn" id="install-btn">📲 इंस्टॉल करें</button>
+    <button class="install-dismiss" id="dismiss-btn">बाद में</button>
+  </div>
+</div>
+
+<!-- ████████ होम ████████ -->
+<div class="page active" id="page-home">
+  <div class="app-header">
+    <div class="logo-wrap">
+      <img class="logo-img" src="https://maakamakhyafeed.com/attachment/logo.png" alt="Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div style="display:none;width:54px;height:54px;border-radius:14px;background:linear-gradient(135deg,var(--saffron),var(--gold-mid));align-items:center;justify-content:center;font-size:28px;box-shadow:0 4px 14px rgba(200,72,0,0.35);">🐄</div>
+      <div class="logo-text">
+        <div class="brand">माँ कामाख्या</div>
+        <div class="sub">पोल्ट्री प्रोडक्ट प्रा. लि.</div>
+      </div>
+    </div>
+    <div class="hdr-btns">
+      <div class="hdr-btn" onclick="window.location='tel:8051329000'">📞</div>
+      <div class="hdr-btn" onclick="navigate('contact')">✉️</div>
+    </div>
+  </div>
+
+  <div class="hero-wrap fu">
+    <div class="hero-img-bg"></div>
+    <div class="hero-body">
+      <div class="hero-pill">🌾 झारखण्ड की शान · 1997 से सेवा में</div>
+      <div class="hero-title">प्रीमियम पशु<span>आहार और पोल्ट्री</span></div>
+      <div class="hero-desc">हमारे वैज्ञानिक आहार से आपके जानवरों की सेहत और उत्पादकता दोनों बेहतर होगी — पूरी तरह प्राकृतिक।</div>
+      <button class="hero-cta" onclick="navigate('products')">उत्पाद देखें →</button>
+      <div class="hero-stats">
+        <div><div class="hs-num">40+</div><div class="hs-lbl">साल की<br>विरासत</div></div>
+        <div><div class="hs-num">40K+</div><div class="hs-lbl">किसान<br>परिवार</div></div>
+        <div><div class="hs-num">50+</div><div class="hs-lbl">फीड<br>प्रकार</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ribbon">
+    <div class="ribbon-inner">
+      <span class="ribbon-text">🐔 ब्रॉयलर · लेयर · डेयरी · ब्रीडर — हर पशु के लिए बेहतर पोषण &nbsp;&nbsp;&nbsp; 🐄 3 Million MT फीड · 70 Feed Mills · झारखण्ड का भरोसा &nbsp;&nbsp;&nbsp; 🥚 बोकारो से पूरे भारत में डिलीवरी &nbsp;&nbsp;&nbsp;</span>
+      <span class="ribbon-text">🐔 ब्रॉयलर · लेयर · डेयरी · ब्रीडर — हर पशु के लिए बेहतर पोषण &nbsp;&nbsp;&nbsp; 🐄 3 Million MT फीड · 70 Feed Mills · झारखण्ड का भरोसा &nbsp;&nbsp;&nbsp; 🥚 बोकारो से पूरे भारत में डिलीवरी &nbsp;&nbsp;&nbsp;</span>
+    </div>
+  </div>
+
+  <div class="chip-label">पशु वर्ग चुनें 👇</div>
+  <div class="chip-row">
+    <div class="a-chip c1" onclick="navigate('products')"><div class="a-emoji">🐔</div><div class="a-name">ब्रॉयलर<br>मुर्गी</div></div>
+    <div class="a-chip c2" onclick="navigate('products')"><div class="a-emoji">🥚</div><div class="a-name">लेयर<br>हेन</div></div>
+    <div class="a-chip c3" onclick="navigate('products')"><div class="a-emoji">🐄</div><div class="a-name">डेयरी<br>गाय</div></div>
+    <div class="a-chip c4" onclick="navigate('products')"><div class="a-emoji">🐣</div><div class="a-name">चिक<br>स्टार्टर</div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-title">हमारे उत्पाद</div>
+      <span class="see-all" onclick="navigate('products')">सब देखें →</span>
+    </div>
+  </div>
+  <div class="p-scroll">
+    <div class="p-card"><div class="p-img-wrap"><div class="p-badge">लोकप्रिय</div><img src="https://maakamakhyafeed.com/attachment/farm/chicken.jpg" alt="" onerror="this.parentNode.innerHTML='<div class=gal-fallback>🌽</div>'"></div><div class="p-body"><div class="p-name">किट्टू क्रम्बल फीड</div><div class="p-brand">किट्टू ब्रांड · पोल्ट्री</div></div><button class="p-btn" onclick="showToast('📋 पूछताछ भेज दी गई!')">पूछें</button></div>
+    <div class="p-card"><div class="p-img-wrap"><img src="https://maakamakhyafeed.com/attachment/farm/chicken2.jpg" alt="" onerror="this.parentNode.innerHTML='<div class=gal-fallback>🐄</div>'"></div><div class="p-body"><div class="p-name">सूधा कैटल फीड</div><div class="p-brand">सूधा ब्रांड · डेयरी</div></div><button class="p-btn" onclick="showToast('📋 पूछताछ भेज दी गई!')">पूछें</button></div>
+    <div class="p-card"><div class="p-img-wrap"><div class="p-badge">नया</div><img src="https://maakamakhyafeed.com/attachment/farm/chicken3.jpg" alt="" onerror="this.parentNode.innerHTML='<div class=gal-fallback>🐣</div>'"></div><div class="p-body"><div class="p-name">किट्टू काउंटर फीड</div><div class="p-brand">किट्टू ब्रांड · चिक</div></div><button class="p-btn" onclick="showToast('📋 पूछताछ भेज दी गई!')">पूछें</button></div>
+    <div class="p-card"><div class="p-img-wrap"><img src="https://maakamakhyafeed.com/attachment/gallery/3231-imresizer-WhatsApp%20Image%202026-03-26%20at%203.20.25%20PM%20(1).jpeg" alt="" onerror="this.parentNode.innerHTML='<div class=gal-fallback>🐔</div>'"></div><div class="p-body"><div class="p-name">नेक्सा ब्रॉयलर स्टार्टर</div><div class="p-brand">नेक्सा ब्रांड · ब्रॉयलर</div></div><button class="p-btn" onclick="showToast('📋 पूछताछ भेज दी गई!')">पूछें</button></div>
+    <div class="p-card"><div class="p-img-wrap"><img src="https://maakamakhyafeed.com/attachment/farm/addone.png" alt="" onerror="this.parentNode.innerHTML='<div class=gal-fallback>🥚</div>'"></div><div class="p-body"><div class="p-name">कामाख्या लेयर पेलेट</div><div class="p-brand">कामाख्या · लेयर हेन</div></div><button class="p-btn" onclick="showToast('📋 पूछताछ भेज दी गई!')">पूछें</button></div>
+    <div class="p-card"><div class="p-img-wrap"><img src="https://maakamakhyafeed.com/attachment/farm/chicken.jpg" alt="" onerror="this.parentNode.innerHTML='<div class=gal-fallback>🌱</div>'"></div><div class="p-body"><div class="p-name">परिवर्तन ब्रॉयलर फीड</div><div class="p-brand">परिवर्तन ब्रांड</div></div><button class="p-btn" onclick="showToast('📋 पूछताछ भेज दी गई!')">पूछें</button></div>
+  </div>
+
+  <div class="feat-banner">
+    <div class="feat-bg"></div>
+    <div class="feat-body">
+      <div class="feat-pill">🌿 हमारी कहानी</div>
+      <h3>1997 से किसान का विश्वास</h3>
+      <p>माँ कामाख्या पोल्ट्री प्रोडक्ट प्रा. लि. — ग्रामीण भारत के 40,000+ किसान परिवारों की उम्मीद।</p>
+      <div class="feat-stats">
+        <div><div class="fs-num">40K+</div><div class="fs-lbl">किसान<br>जुड़े</div></div>
+        <div><div class="fs-num">3M MT</div><div class="fs-lbl">फीड<br>सप्लाई</div></div>
+        <div><div class="fs-num">100+</div><div class="fs-lbl">हमारे<br>लोग</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec"><div class="sec-head"><div class="sec-title">हमारे ब्रांड</div></div></div>
+  <div class="brand-scroll">
+    <div class="brand-chip"><img src="https://maakamakhyafeed.com/attachment/partner/kamakhya.png" alt="कामाख्या" onerror="this.parentNode.textContent='🌾 कामाख्या'"></div>
+    <div class="brand-chip"><img src="https://maakamakhyafeed.com/attachment/partner/kittu.png" alt="किट्टू" onerror="this.parentNode.textContent='🐣 किट्टू'"></div>
+    <div class="brand-chip"><img src="https://maakamakhyafeed.com/attachment/partner/nexaa.png" alt="नेक्सा" onerror="this.parentNode.textContent='🔬 नेक्सा'"></div>
+    <div class="brand-chip"><img src="https://maakamakhyafeed.com/attachment/partner/parivartan.png" alt="परिवर्तन" onerror="this.parentNode.textContent='🌱 परिवर्तन'"></div>
+    <div class="brand-chip"><img src="https://maakamakhyafeed.com/attachment/partner/sudha.png" alt="सूधा" onerror="this.parentNode.textContent='🐄 सूधा'"></div>
+  </div>
+
+  <div class="divider"><div class="div-line"></div><div class="div-mot">🌾</div><div class="div-line r"></div></div>
+
+  <div class="sec">
+    <div class="sec-head"><div class="sec-title">संपर्क करें</div></div>
+    <div class="contact-card">
+      <div class="c-row" onclick="window.location='tel:8051329000'"><div class="c-icon">📞</div><div><div class="c-lbl">फोन / कॉल करें</div><div class="c-val">8051329000</div></div><div class="c-arr">›</div></div>
+      <div class="c-row" onclick="window.location='mailto:info@maakamakhyafeed.com'"><div class="c-icon">📧</div><div><div class="c-lbl">ईमेल / पत्र</div><div class="c-val">info@maakamakhyafeed.com</div></div><div class="c-arr">›</div></div>
+      <div class="c-row"><div class="c-icon">📍</div><div><div class="c-lbl">हमारा पता</div><div class="c-val">तेलगारिया मोड़, बोकारो, झारखण्ड</div></div></div>
+    </div>
+  </div>
+
+  <div class="footer-strip">
+    <div class="ft-name">माँ कामाख्या पोल्ट्री प्रोडक्ट प्रा. लि.</div>
+    <div class="ft-copy">© 2025 सर्वाधिकार सुरक्षित</div>
+    <div class="soc-row">
+      <div class="soc-btn" style="background:var(--saffron-mid);">𝕏</div>
+      <div class="soc-btn" style="background:#0077B5;">in</div>
+      <div class="soc-btn" style="background:#1877F2;">f</div>
+      <div class="soc-btn" style="background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#bc1888);">📷</div>
+    </div>
+  </div>
+  <div style="height:24px;"></div>
+</div>
+
+<!-- ████████ उत्पाद ████████ -->
+<div class="page" id="page-products">
+  <div class="pg-hero"><div class="pg-hero-bg" style="background-image:url('https://maakamakhyafeed.com/attachment/farm/chicken2.jpg');"></div><div class="pg-hero-ov"></div><div class="pg-body"><div class="pg-sub">माँ कामाख्या</div><div class="ph1">सारे उत्पाद</div><p>ब्रॉयलर, लेयर, डेयरी — सबके लिए प्रीमियम फीड</p></div></div>
+  <div style="padding:14px;padding-bottom:calc(90px + env(safe-area-inset-bottom));">
+    <div class="pl-card"><div class="pl-img"><img src="https://maakamakhyafeed.com/attachment/farm/chicken.jpg" alt=""></div><div class="pl-info"><div><div class="pl-name">किट्टू क्रम्बल फीड</div><div class="pl-brand">किट्टू ब्रांड · ब्रॉयलर/लेयर</div><div class="pl-desc">हाई-न्यूट्रिएंट क्रम्बल — ब्रॉयलर और लेयर दोनों के लिए</div></div><button class="pl-btn" onclick="showToast('📋 पूछताछ भेज दी!')">पूछें</button></div></div>
+    <div class="pl-card"><div class="pl-img"><img src="https://maakamakhyafeed.com/attachment/farm/chicken2.jpg" alt=""></div><div class="pl-info"><div><div class="pl-name">सूधा कैटल फीड</div><div class="pl-brand">सूधा ब्रांड · डेयरी</div><div class="pl-desc">गाय और भैंस के लिए ऑर्गेनिक हाई-न्यूट्रिएंट फीड</div></div><button class="pl-btn" onclick="showToast('📋 पूछताछ भेज दी!')">पूछें</button></div></div>
+    <div class="pl-card"><div class="pl-img"><img src="https://maakamakhyafeed.com/attachment/farm/chicken3.jpg" alt=""></div><div class="pl-info"><div><div class="pl-name">किट्टू काउंटर फीड</div><div class="pl-brand">किट्टू ब्रांड · चिक</div><div class="pl-desc">छोटे चूज़ों के लिए विशेष रूप से तैयार फीड</div></div><button class="pl-btn" onclick="showToast('📋 पूछताछ भेज दी!')">पूछें</button></div></div>
+    <div class="pl-card"><div class="pl-img"><img src="https://maakamakhyafeed.com/attachment/gallery/3231-imresizer-WhatsApp%20Image%202026-03-26%20at%203.20.25%20PM%20(1).jpeg" alt=""></div><div class="pl-info"><div><div class="pl-name">नेक्सा ब्रॉयलर स्टार्टर</div><div class="pl-brand">नेक्सा ब्रांड · ब्रॉयलर</div><div class="pl-desc">ब्रॉयलर के शुरुआती चरण के लिए सर्वश्रेष्ठ फीड</div></div><button class="pl-btn" onclick="showToast('📋 पूछताछ भेज दी!')">पूछें</button></div></div>
+    <div class="pl-card"><div class="pl-img"><img src="https://maakamakhyafeed.com/attachment/farm/chicken.jpg" alt=""></div><div class="pl-info"><div><div class="pl-name">ब्रॉयलर फिनिशर फीड</div><div class="pl-brand">प्रीमियम ब्रांड · ब्रॉयलर</div><div class="pl-desc">वज़न बढ़ाने के अंतिम चरण का सर्वश्रेष्ठ फीड</div></div><button class="pl-btn" onclick="showToast('📋 पूछताछ भेज दी!')">पूछें</button></div></div>
+    <div class="pl-card"><div class="pl-img"><img src="https://maakamakhyafeed.com/attachment/farm/addone.png" alt=""></div><div class="pl-info"><div><div class="pl-name">कामाख्या लेयर पेलेट</div><div class="pl-brand">कामाख्या ब्रांड · लेयर</div><div class="pl-desc">अंडे देने वाली मुर्गियों के लिए पेलेट फीड</div></div><button class="pl-btn" onclick="showToast('📋 पूछताछ भेज दी!')">पूछें</button></div></div>
+    <div class="pl-card"><div class="pl-img"><img src="https://maakamakhyafeed.com/attachment/farm/chicken2.jpg" alt=""></div><div class="pl-info"><div><div class="pl-name">परिवर्तन ब्रॉयलर स्टार्टर</div><div class="pl-brand">परिवर्तन ब्रांड · ब्रॉयलर</div><div class="pl-desc">परिवर्तन का विश्वसनीय ब्रॉयलर स्टार्टर फीड</div></div><button class="pl-btn" onclick="showToast('📋 पूछताछ भेज दी!')">पूछें</button></div></div>
+    <div class="pl-card"><div class="pl-img"><img src="https://maakamakhyafeed.com/attachment/farm/chicken3.jpg" alt=""></div><div class="pl-info"><div><div class="pl-name">नेक्सा प्री-स्टार्टर</div><div class="pl-brand">नेक्सा ब्रांड · प्री-स्टार्टर</div><div class="pl-desc">ब्रॉयलर के पहले दिन से सही पोषण</div></div><button class="pl-btn" onclick="showToast('📋 पूछताछ भेज दी!')">पूछें</button></div></div>
+  </div>
+</div>
+
+<!-- ████████ सेवाएं ████████ -->
+<div class="page" id="page-services">
+  <div class="pg-hero"><div class="pg-hero-bg" style="background-image:url('https://maakamakhyafeed.com/attachment/farm/chicken3.jpg');"></div><div class="pg-hero-ov"></div><div class="pg-body"><div class="pg-sub">माँ कामाख्या</div><div class="ph1">हमारी सेवाएँ</div><p>पशु पालक किसान के लिए पूरा सपोर्ट सिस्टम</p></div></div>
+  <div style="padding:16px;padding-bottom:calc(90px + env(safe-area-inset-bottom));">
+    <div class="svc-card"><div class="svc-icon s1">🐔</div><div style="flex:1;padding-left:4px;"><div class="svc-name">मुर्गी पालन मार्गदर्शन</div><div class="svc-desc">ब्रॉयलर और लेयर फार्मिंग का पूरा मार्गदर्शन — चिक सप्लाई, टीकाकरण और पोषण योजना।</div></div><div class="svc-arr">›</div></div>
+    <div class="svc-card"><div class="svc-icon s2">🌾</div><div style="flex:1;padding-left:4px;"><div class="svc-name">पशु आहार उत्पाद</div><div class="svc-desc">विज्ञान-आधारित चिकन और कैटल फीड — कस्टमाइज़्ड मिक्स और सप्लीमेंट भी उपलब्ध।</div></div><div class="svc-arr">›</div></div>
+    <div class="svc-card"><div class="svc-icon s3">🐄</div><div style="flex:1;padding-left:4px;"><div class="svc-name">डेयरी पशु फीड</div><div class="svc-desc">गाय-भैंस के लिए हाई-न्यूट्रिएंट डेयरी फीड — दूध उत्पादन बढ़ाने में प्रभावी।</div></div><div class="svc-arr">›</div></div>
+    <div class="svc-card"><div class="svc-icon s4">🤝</div><div style="flex:1;padding-left:4px;"><div class="svc-name">कॉन्ट्रैक्ट फार्मिंग</div><div class="svc-desc">हमारी इंटीग्रेटेड फार्मिंग मॉडल में जुड़ें — दीर्घकालिक साझेदारी और स्थिर आय।</div></div><div class="svc-arr">›</div></div>
+    <div class="svc-card"><div class="svc-icon s1">📦</div><div style="flex:1;padding-left:4px;"><div class="svc-name">वितरण नेटवर्क</div><div class="svc-desc">70 फीड मिल्स और 40,000+ किसानों का नेटवर्क — आप भी डिस्ट्रीब्यूटर बन सकते हैं।</div></div><div class="svc-arr">›</div></div>
+    <div class="svc-card"><div class="svc-icon s2">🔬</div><div style="flex:1;padding-left:4px;"><div class="svc-name">अनुसंधान और विकास</div><div class="svc-desc">निरंतर R&D से बेहतरीन गुणवत्ता के फीड उत्पाद — जानवरों की लंबी सेहत के लिए।</div></div><div class="svc-arr">›</div></div>
+    <div class="divider"><div class="div-line"></div><div class="div-mot">🐄</div><div class="div-line r"></div></div>
+    <div style="font-family:'Tiro Devanagari Hindi',serif;font-size:22px;font-weight:700;color:var(--deep);margin:24px 0 14px;">हमारे परिवार में आएं</div>
+    <div class="join-card"><div class="join-inner"><div class="join-title">🧑‍🌾 किसान भाई / दीदी</div><div class="join-desc">बेहतरीन बिज़नेस मॉडल के साथ स्थिर आय और पूरा फार्मिंग सपोर्ट। आज ही जुड़ें!</div><button class="apply-btn" onclick="navigate('contact')">अभी पूछें</button></div></div>
+    <div class="join-card"><div class="join-inner"><div class="join-title">🏪 फीड डिस्ट्रीब्यूटर बनें</div><div class="join-desc">किसान, कंपनी और रिटेलर के बीच महत्वपूर्ण कड़ी बनें — अपना व्यवसाय बढ़ाएं।</div><button class="apply-btn" onclick="navigate('contact')">अभी पूछें</button></div></div>
+    <div class="join-card"><div class="join-inner"><div class="join-title">🔗 सप्लायर पार्टनर</div><div class="join-desc">भारत के सबसे विश्वसनीय पोल्ट्री ब्रांड के साथ टिकाऊ और दीर्घकालिक व्यापारिक साझेदारी।</div><button class="apply-btn" onclick="navigate('contact')">अभी पूछें</button></div></div>
+  </div>
+</div>
+
+<!-- ████████ गैलरी ████████ -->
+<div class="page" id="page-gallery">
+  <div class="pg-hero"><div class="pg-hero-bg" style="background-image:url('https://maakamakhyafeed.com/attachment/gallery/3231-imresizer-WhatsApp%20Image%202026-03-26%20at%203.20.25%20PM%20(1).jpeg');"></div><div class="pg-hero-ov"></div><div class="pg-body"><div class="pg-sub">माँ कामाख्या</div><div class="ph1">हमारी गैलरी</div><p>फार्म से आपके घर तक का पूरा सफर</p></div></div>
+  <div style="padding:14px;padding-bottom:calc(90px + env(safe-area-inset-bottom));">
+    <div class="gal-grid">
+      <div class="gal-item"><img src="https://maakamakhyafeed.com/attachment/gallery/3231-imresizer-WhatsApp%20Image%202026-03-26%20at%203.20.25%20PM%20(1).jpeg" alt=""><div class="gal-label">पोल्ट्री फार्म</div></div>
+      <div class="gal-item"><img src="https://maakamakhyafeed.com/attachment/farm/chicken.jpg" alt=""><div class="gal-label">हमारी मुर्गियाँ</div></div>
+      <div class="gal-item"><img src="https://maakamakhyafeed.com/attachment/farm/chicken2.jpg" alt=""><div class="gal-label">फीड उत्पादन</div></div>
+      <div class="gal-item"><img src="https://maakamakhyafeed.com/attachment/farm/chicken3.jpg" alt=""><div class="gal-label">लेयर फार्मिंग</div></div>
+      <div class="gal-item"><img src="https://maakamakhyafeed.com/attachment/farm/addone.png" alt="" onerror="this.parentNode.innerHTML='<div class=gal-fallback>🌾</div><div class=gal-label>पशु आहार</div>'"><div class="gal-label">पशु आहार</div></div>
+      <div class="gal-item"><img src="https://maakamakhyafeed.com/attachment/gallery/1355-imresizer-WhatsApp%20Image%202026-03-28%20at%2011.15.00%20AM.jpeg" alt="" onerror="this.parentNode.innerHTML='<div class=gal-fallback>🏭</div><div class=gal-label>हमारा फार्म</div>'"><div class="gal-label">हमारा फार्म</div></div>
+      <div class="gal-item"><img src="https://maakamakhyafeed.com/attachment/gallery/3488-imresizer-WhatsApp%20Image%202026-03-28%20at%2011.25.24%20AM.jpeg" alt="" onerror="this.parentNode.innerHTML='<div class=gal-fallback>👨‍🌾</div><div class=gal-label>हमारे किसान</div>'"><div class="gal-label">हमारे किसान</div></div>
+      <div class="gal-item"><img src="https://maakamakhyafeed.com/attachment/farm/chicken.jpg" alt=""><div class="gal-label">डिलीवरी नेटवर्क</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ████████ नौकरी ████████ -->
+<div class="page" id="page-career">
+  <div class="pg-hero"><div class="pg-hero-bg" style="background-image:url('https://maakamakhyafeed.com/attachment/farm/chicken2.jpg');"></div><div class="pg-hero-ov"></div><div class="pg-body"><div class="pg-sub">माँ कामाख्या</div><div class="ph1">नौकरी के अवसर</div><p>100+ कुशल लोगों के साथ आगे बढ़ें</p></div></div>
+  <div style="padding:16px;padding-bottom:calc(90px + env(safe-area-inset-bottom));">
+    <div class="car-card"><div class="car-title">🐔 फील्ड फार्मर कोऑर्डिनेटर</div><div class="car-meta"><span class="car-tag loc">📍 बोकारो, झारखण्ड</span><span class="car-tag type">पूर्णकालिक</span></div><div class="car-desc">किसानों के साथ समन्वय करना, पोल्ट्री और कैटल फार्मिंग का तकनीकी मार्गदर्शन देना और उत्पादकता निगरानी।</div><button class="apply-btn" onclick="showToast('✅ आवेदन हो गया!')">आवेदन करें</button></div>
+    <div class="car-card"><div class="car-title">🌾 फीड डिस्ट्रीब्यूशन एक्जीक्यूटिव</div><div class="car-meta"><span class="car-tag loc">📍 झारखण्ड</span><span class="car-tag type">पूर्णकालिक</span></div><div class="car-desc">वितरण नेटवर्क संभालना — किसान, रिटेलर और कंपनी के बीच गुणवत्तापूर्ण फीड कुशलता से पहुँचाना।</div><button class="apply-btn" onclick="showToast('✅ आवेदन हो गया!')">आवेदन करें</button></div>
+    <div class="car-card"><div class="car-title">🔬 पशु पोषण विशेषज्ञ</div><div class="car-meta"><span class="car-tag loc">📍 मुख्यालय – बोकारो</span><span class="car-tag type">R&D</span></div><div class="car-desc">ब्रॉयलर, लेयर और डेयरी कैटल के लिए वैज्ञानिक रूप से तैयार फीड उत्पाद विकसित और अनुकूलित करना।</div><button class="apply-btn" onclick="showToast('✅ आवेदन हो गया!')">आवेदन करें</button></div>
+    <div class="car-card"><div class="car-title">🏭 फार्म सुपरवाइज़र</div><div class="car-meta"><span class="car-tag loc">📍 झारखण्ड</span><span class="car-tag type">ऑपरेशन्स</span></div><div class="car-desc">ब्रीडर और ब्रॉयलर फार्म की दैनिक कार्यप्रणाली देखना, स्वच्छता मानक बनाए रखना और उत्पादन लक्ष्य पूरे करना।</div><button class="apply-btn" onclick="showToast('✅ आवेदन हो गया!')">आवेदन करें</button></div>
+  </div>
+</div>
+
+<!-- ████████ संपर्क ████████ -->
+<div class="page" id="page-contact">
+  <div class="pg-hero"><div class="pg-hero-bg" style="background-image:url('https://maakamakhyafeed.com/attachment/farm/chicken3.jpg');"></div><div class="pg-hero-ov"></div><div class="pg-body"><div class="pg-sub">माँ कामाख्या</div><div class="ph1">संपर्क करें</div><p>हम आपकी मदद के लिए हमेशा तैयार हैं</p></div></div>
+  <div style="padding:14px;display:flex;flex-direction:column;gap:16px;padding-bottom:calc(90px + env(safe-area-inset-bottom));">
+    <div class="contact-card">
+      <div class="c-row" onclick="window.location='tel:8051329000'"><div class="c-icon">📞</div><div><div class="c-lbl">फोन / कॉल करें</div><div class="c-val">8051329000</div></div><div class="c-arr">›</div></div>
+      <div class="c-row" onclick="window.location='mailto:info@maakamakhyafeed.com'"><div class="c-icon">📧</div><div><div class="c-lbl">ईमेल / पत्र भेजें</div><div class="c-val">info@maakamakhyafeed.com</div></div><div class="c-arr">›</div></div>
+      <div class="c-row"><div class="c-icon">📍</div><div><div class="c-lbl">हमारा पता</div><div class="c-val">तेलगारिया मोड़, जामगुडिया चास, बोकारो, झारखण्ड</div></div></div>
+    </div>
+    <div class="enq-form">
+      <div class="form-title">📋 पूछताछ भेजें</div>
+      <div class="fg"><label class="fl">व्यवसाय चुनें</label><select class="fc"><option>फीड उत्पाद</option><option>कच्चा माल</option><option>फार्म बिज़नेस</option><option>इंफ्रास्ट्रक्चर</option><option>सप्लायर पूछताछ</option><option>अन्य (Other)</option></select></div>
+      <div class="fg"><label class="fl">आपका नाम</label><input type="text" class="fc" placeholder="अपना पूरा नाम लिखें..."></div>
+      <div class="fg"><label class="fl">मोबाइल नंबर</label><input type="tel" class="fc" placeholder="अपना फोन नंबर लिखें..."></div>
+      <div class="fg"><label class="fl">संदेश</label><textarea class="fc" placeholder="आप क्या जानना चाहते हैं?"></textarea></div>
+      <button class="sub-btn" onclick="showToast('✅ पूछताछ सफलतापूर्वक भेजी गई!')">पूछताछ भेजें 🌾</button>
+    </div>
+    <div class="footer-strip">
+      <div class="ft-name">माँ कामाख्या पोल्ट्री प्रोडक्ट प्रा. लि.</div>
+      <div class="ft-copy">© 2025 सर्वाधिकार सुरक्षित</div>
+      <div class="soc-row">
+        <div class="soc-btn" style="background:var(--saffron-mid);">𝕏</div>
+        <div class="soc-btn" style="background:#0077B5;">in</div>
+        <div class="soc-btn" style="background:#1877F2;">f</div>
+        <div class="soc-btn" style="background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#bc1888);">📷</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ████████ BOTTOM NAV ████████ -->
+<div class="btm-nav">
+  <div class="nav-it active" id="nav-home" onclick="navigate('home')"><div class="nav-ic">🏠</div><div class="nav-lb">होम</div></div>
+  <div class="nav-it" id="nav-products" onclick="navigate('products')"><div class="nav-ic">🌾</div><div class="nav-lb">उत्पाद</div></div>
+  <div class="nav-it" id="nav-services" onclick="navigate('services')"><div class="nav-ic">🐄</div><div class="nav-lb">सेवाएँ</div></div>
+  <div class="nav-it" id="nav-gallery" onclick="navigate('gallery')"><div class="nav-ic">📸</div><div class="nav-lb">गैलरी</div></div>
+  <div class="nav-it" id="nav-contact" onclick="navigate('contact')"><div class="nav-ic">✉️</div><div class="nav-lb">संपर्क</div></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── Navigation ── */
+const pages=['home','products','services','gallery','career','contact'];
+function navigate(p){
+  pages.forEach(pg=>{
+    const el=document.getElementById('page-'+pg);
+    const nv=document.getElementById('nav-'+pg);
+    if(el) el.classList.toggle('active',pg===p);
+    if(nv) nv.classList.toggle('active',pg===p);
+  });
+  window.scrollTo(0,0);
+}
+
+/* ── Toast ── */
+let tt;
+function showToast(m){
+  const t=document.getElementById('toast');
+  t.textContent=m;t.classList.add('show');
+  clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+/* ── Splash Screen ── */
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    const s=document.getElementById('splash');
+    s.classList.add('hide');
+    setTimeout(()=>s.remove(),500);
+  },1800);
+});
+
+/* ── Service Worker ── */
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js')
+    .then(r=>console.log('✅ SW registered:',r.scope))
+    .catch(e=>console.warn('SW error:',e));
+}
+
+/* ── PWA Install Prompt ── */
+let deferredPrompt=null;
+const banner=document.getElementById('install-banner');
+const installBtn=document.getElementById('install-btn');
+const dismissBtn=document.getElementById('dismiss-btn');
+
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();
+  deferredPrompt=e;
+  // Show banner after 3 seconds
+  setTimeout(()=>{ banner.style.display='block'; },3000);
+});
+
+installBtn.addEventListener('click',async()=>{
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const {outcome}=await deferredPrompt.userChoice;
+  if(outcome==='accepted') showToast('🎉 ऐप इंस्टॉल हो गया!');
+  deferredPrompt=null;
+  banner.style.display='none';
+});
+
+dismissBtn.addEventListener('click',()=>{
+  banner.style.display='none';
+});
+
+window.addEventListener('appinstalled',()=>{
+  banner.style.display='none';
+  showToast('🎉 माँ कामाख्या ऐप इंस्टॉल हो गया!');
+});
+
+/* ── Offline / Online detection ── */
+const offlineBar=document.getElementById('offline-bar');
+function updateOnlineStatus(){
+  offlineBar.style.display=navigator.onLine?'none':'block';
+}
+window.addEventListener('online',updateOnlineStatus);
+window.addEventListener('offline',updateOnlineStatus);
+updateOnlineStatus();
+
+/* ── URL Hash routing (for shortcuts) ── */
+const hash=window.location.hash.replace('#','');
+if(pages.includes(hash)) navigate(hash);
+</script>
+</body>
+</html>
